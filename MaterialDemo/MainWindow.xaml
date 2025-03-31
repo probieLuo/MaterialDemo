@@ -18,25 +18,11 @@
                                x:Name="DialogHost"
                                Identifier="Root"
                                SnackbarMessageQueue="{Binding ElementName=MainSnackbar, Path=MessageQueue}">
-        <materialDesign:DrawerHost x:Name="drawerHost"
+        <materialDesign:DrawerHost x:Name="NavDrawer"
                                    IsLeftDrawerOpen="{Binding ElementName=MenuToggleButton, Path=IsChecked}">
             <materialDesign:DrawerHost.LeftDrawerContent>
                 <DockPanel MinWidth="220">
-                    <!--<StackPanel DockPanel.Dock="Top"
-                                Margin="0,20">
-                        <Image Height="80"
-                               Width="80"
-                               Margin="0,0,0,0">
-                            <Image.Clip>
-                                <RectangleGeometry RadiusX="80"
-                                                   RadiusY="80"
-                                                   Rect="0,0,80,80" />
-                            </Image.Clip>
-                        </Image>
-                        <TextBlock Text="重生之我是大菜比"
-                                   Margin="0,10"
-                                   HorizontalAlignment="Center" />
-                    </StackPanel>-->
+
                     <ToggleButton Margin="16"
                                   HorizontalAlignment="Right"
                                   DockPanel.Dock="Top"
@@ -51,27 +37,7 @@
                              DockPanel.Dock="Top"
                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
                              Text="{Binding SearchKeyword, UpdateSourceTrigger=PropertyChanged}" />
-                    <!--<ListBox x:Name="menuBars"
-                             HorizontalContentAlignment="Stretch"
-                             ItemsSource="{Binding MenuBars}">
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="SelectionChanged">
-                                <i:InvokeCommandAction Command="{Binding NavigateCommand}"
-                                                       CommandParameter="{Binding ElementName=menuBars,Path=SelectedItem}" />
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                        <ListBox.ItemTemplate>
-                            <DataTemplate>
-                                <StackPanel VerticalAlignment="Center"
-                                            Orientation="Horizontal">
-                                    <materialDesign:PackIcon Kind="{Binding Icon}"
-                                                             Margin="15,0" />
-                                    <TextBlock Text="{Binding Title}"
-                                               Margin="10,0" />
-                                </StackPanel>
-                            </DataTemplate>
-                        </ListBox.ItemTemplate>
-                    </ListBox>-->
+
                     <ListBox x:Name="DemoItemsListBox"
                              Margin="0,16,0,16"
                              AutomationProperties.Name="DemoPagesListBox"
@@ -113,18 +79,7 @@
                                                        Rect="0,0,60,60" />
                                 </Image.Clip>
                             </Image>
-                            <!--<Button x:Name="btnMin"
-                                    Content="{materialDesign:PackIcon Kind=WindowMinimize}"
-                                    ToolTip="最小化"
-                                    Margin="0,0,0,30" />
-                            <Button x:Name="btnMax"
-                                    Content="{materialDesign:PackIcon Kind=WindowMaximize}"
-                                    ToolTip="最大化"
-                                    Margin="0,0,0,30" />
-                            <Button x:Name="btnClose"
-                                    Content="{materialDesign:PackIcon Kind=WindowClose}"
-                                    ToolTip="关闭"
-                                    Margin="0,0,0,30" />-->
+
                         </StackPanel>
                         <StackPanel Orientation="Horizontal"
                                     Margin="10,0,0,0">
@@ -149,13 +104,6 @@
                                     Style="{StaticResource MaterialDesignToolButton}"
                                     ToolTip="Next Item" />
 
-                            <!--<TextBlock Margin="16,0,0,0"
-                                       HorizontalAlignment="Center"
-                                       VerticalAlignment="Center"
-                                       AutomationProperties.Name="Material Design In XAML Toolkit"
-                                       FontSize="22"
-                                       Text="Hello" />-->
-
                             <Button Margin="16,0,0,0"
                                     Command="{Binding HomeCommand}"
                                     Content="{materialDesign:PackIcon Kind=Home, Size=24}"
@@ -165,7 +113,7 @@
                         </StackPanel>
                     </DockPanel>
                 </materialDesign:ColorZone>
-                
+
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto" />

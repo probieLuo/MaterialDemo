@@ -1,13 +1,6 @@
-﻿using System.Text;
+﻿using MaterialDesignThemes.Wpf;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MaterialDemo
 {
@@ -19,12 +12,15 @@ namespace MaterialDemo
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext=new Domain.MainViewModel();
+            this.DataContext = new Domain.MainViewModel();
         }
 
         private void UIElement_OnPreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-
+            if (NavDrawer.OpenMode is not DrawerHostOpenMode.Standard)
+            {
+                MenuToggleButton.IsChecked = false;
+            }
         }
 
         private void OnSelectedItemChanged(object sender, DependencyPropertyChangedEventArgs e)

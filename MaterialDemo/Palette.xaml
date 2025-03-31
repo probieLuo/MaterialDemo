@@ -6,7 +6,57 @@
              xmlns:local="clr-namespace:MaterialDemo"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="FontWeight" Value="DemiBold" />
+            <Setter Property="Margin" Value="4" />
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
-            
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+
+        <Border Grid.ColumnSpan="3" Background="{DynamicResource PrimaryHueMidBrush}">
+            <TextBlock Foreground="{DynamicResource PrimaryHueMidForegroundBrush}" Text="Primary - Mid" />
+        </Border>
+
+        <Border Grid.Row="1"
+            Grid.Column="0"
+            Background="{DynamicResource PrimaryHueLightBrush}">
+            <TextBlock FontWeight="Bold"
+                 Foreground="{DynamicResource PrimaryHueLightForegroundBrush}"
+                 Text="Light" />
+        </Border>
+
+        <Border Grid.Row="1"
+            Grid.Column="1"
+            Background="{DynamicResource PrimaryHueMidBrush}">
+            <TextBlock Foreground="{DynamicResource PrimaryHueMidForegroundBrush}" Text="Mid" />
+        </Border>
+
+        <Border Grid.Row="1"
+            Grid.Column="2"
+            Background="{DynamicResource PrimaryHueDarkBrush}">
+            <TextBlock Foreground="{DynamicResource PrimaryHueDarkForegroundBrush}" Text="Dark" />
+        </Border>
+
+        <Border Grid.Row="2"
+            Grid.Column="0"
+            Grid.ColumnSpan="3"
+            Background="{DynamicResource SecondaryHueMidBrush}">
+            <TextBlock Foreground="{DynamicResource SecondaryHueMidForegroundBrush}" Text="Secondary" />
+        </Border>
     </Grid>
 </UserControl>
