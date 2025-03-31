@@ -120,7 +120,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <domain:DocumentationLinks DataContext="{Binding SelectedItem}" />
+                    <domain:DocumentationLinks DataContext="{Binding SelectedItem}"/>
 
                     <ScrollViewer x:Name="MainScrollViewer"
                                   Grid.Row="1"
