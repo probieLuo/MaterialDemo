@@ -1,17 +1,6 @@
-﻿using MaterialDesignThemes.Wpf;
-using MaterialDesignThemes.Wpf.Transitions;
-using System;
-using System.Collections.Generic;
+﻿using MaterialDemo.Views;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Configuration;
-using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using static MaterialDesignThemes.Wpf.Theme;
 
 namespace MaterialDemo.Domain
 {
@@ -69,8 +58,10 @@ namespace MaterialDemo.Domain
         {
             yield return new DemoItem(
                 "Palette",
-                typeof(Palette));
-
+                typeof(Views.Palette));
+            yield return new DemoItem(
+               "Sqlite3Connect",
+               typeof(Views.Sqlite3Connect));
         }
     }
 }

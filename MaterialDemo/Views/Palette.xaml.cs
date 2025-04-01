@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MaterialDemo.Domain;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,16 +15,19 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace MaterialDemo
+namespace MaterialDemo.Views
 {
     /// <summary>
-    /// Home.xaml 的交互逻辑
+    /// Palette.xaml 的交互逻辑
     /// </summary>
-    public partial class Home : UserControl
+    public partial class Palette : UserControl
     {
-        public Home()
+        public Palette()
         {
+            this.DataContext = new ListsAndGridsViewModel();
             InitializeComponent();
         }
     }
+
+   
 }
