@@ -1,5 +1,7 @@
-﻿using System;
+﻿using MaterialDemo.Domain;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,7 +24,10 @@ namespace MaterialDemo
     {
         public Palette()
         {
+            this.DataContext = new ListsAndGridsViewModel();
             InitializeComponent();
         }
     }
+
+   
 }
