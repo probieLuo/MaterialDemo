@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:MaterialDemo.Views"
              mc:Ignorable="d"
              d:DesignHeight="450"
-             d:DesignWidth="800">
+             d:DesignWidth="800"  >
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />
@@ -20,8 +20,8 @@
                     Orientation="Horizontal"
                     HorizontalAlignment="Left">
             <Label VerticalAlignment="Center"
-                   Content="每页行数" />
-            <ComboBox ItemsSource="{Binding comboCount}" VerticalAlignment="Center" HorizontalAlignment="Center" />
+                   Content="每页大小" />
+            <ComboBox Name="comboCount" SelectedValue="{Binding pageSize}" ItemsSource="{Binding comboCount}" VerticalAlignment="Center" HorizontalAlignment="Center" />
             <Button x:Name="FirstPageButton"
                     Margin="7,0"
                     Command="{Binding FirstPageCmd}">
@@ -97,7 +97,16 @@
                      Text="{Binding TotalPage}" />
                 <Run Text="页" />
             </TextBlock>
-            
+
         </StackPanel>
+        <ProgressBar Grid.RowSpan="2"
+      Margin="16"
+      HorizontalAlignment="Center"
+      IsIndeterminate="True"
+                     Name="prog"
+                     Visibility="{Binding progVisibility}"
+      Style="{StaticResource MaterialDesignCircularProgressBar}"
+      Value="0" />
     </Grid>
+
 </UserControl>

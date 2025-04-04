@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace MaterialDemo.Models;
+﻿namespace MaterialDemo.Models;
 
 public partial class Article
 {

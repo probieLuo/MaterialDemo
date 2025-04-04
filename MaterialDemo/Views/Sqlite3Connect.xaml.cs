@@ -1,17 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MaterialDemo.Domain;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MaterialDemo.Views
 {
@@ -20,10 +9,39 @@ namespace MaterialDemo.Views
     /// </summary>
     public partial class Sqlite3Connect : UserControl
     {
+        ListsAndGridsViewModel viewModel = new ListsAndGridsViewModel();
         public Sqlite3Connect()
         {
-            this.DataContext = new Domain.ListsAndGridsViewModel();
+            this.DataContext = viewModel;
+
             InitializeComponent();
+
+            Task.Run(() =>
+            {
+                viewModel.Initializesync();
+                // 使用 Dispatcher 将更新操作切换回主线程
+                Dispatcher.Invoke(() =>
+                {
+                    prog.Visibility = Visibility.Collapsed;
+                });
+            });
+
+            comboCount.SelectionChanged += (s, e) =>
+            {
+                prog.Visibility = Visibility.Visible;
+
+                Task.Run(() =>
+                {
+                    Thread.Sleep(1000);
+                    viewModel.Initializesync();
+                    // 使用 Dispatcher 将更新操作切换回主线程
+                    Dispatcher.Invoke(() =>
+                    {
+                        prog.Visibility = Visibility.Collapsed;
+                    });
+                });
+            };
         }
+
     }
 }
