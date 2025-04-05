@@ -63,21 +63,16 @@ namespace MaterialDemo.Domain
             get => _progVisibility;
             set
             {
-                if (_progVisibility != value)
-                {
-                    _progVisibility = value;
-                    OnPropertyChanged(nameof(progVisibility));
-                }
+                _progVisibility = value;
+                OnPropertyChanged(nameof(progVisibility));
             }
         }
         private void NextPage(object obj)
         {
             progVisibility = Visibility.Visible;
-            OnPropertyChanged(nameof(progVisibility));
             CanNext = false;
             Task.Run(() =>
             {
-                Thread.Sleep(10000);
                 if (int.Parse(TotalPage) > int.Parse(PageNumber))
                 {
                     using (Models.TestContext ctx = new TestContext())
@@ -100,8 +95,6 @@ namespace MaterialDemo.Domain
                     }
                 }
                 CanNext = true;
-                progVisibility = Visibility.Collapsed;
-                OnPropertyChanged(nameof(progVisibility));
             });
 
         }

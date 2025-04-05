@@ -32,7 +32,7 @@ namespace MaterialDemo.Views
 
                 Task.Run(() =>
                 {
-                    Thread.Sleep(1000);
+                    Thread.Sleep(500);
                     viewModel.Initializesync();
                     // 使用 Dispatcher 将更新操作切换回主线程
                     Dispatcher.Invoke(() =>

@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:local="clr-namespace:MaterialDemo.Views"
+             xmlns:local="clr-namespace:MaterialDemo.Views" 
+             xmlns:domain="clr-namespace:MaterialDemo.Domain" d:DataContext="{d:DesignInstance Type=domain:ListsAndGridsViewModel}"
              mc:Ignorable="d"
              d:DesignHeight="450"
              d:DesignWidth="800"  >
@@ -12,7 +13,7 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="30" />
         </Grid.RowDefinitions>
-        <DataGrid CanUserAddRows="False"
+        <DataGrid CanUserAddRows="False" 
                   ItemsSource="{Binding Articles}"
                   SelectionMode="Extended"
                   SelectionUnit="Cell" />
