@@ -1,0 +1,68 @@
+﻿<UserControl x:Class="MaterialDemo.Views.JsonHelp"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:local="clr-namespace:MaterialDemo.Views"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
+             FontFamily="Consolas"
+             d:DesignHeight="450"
+             d:DesignWidth="800">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <materialDesign:DialogHost x:Name="DialogHost"
+                                   IsOpen="False"
+                                   CloseOnClickAway="True"
+                                   Grid.ColumnSpan="2">
+            <materialDesign:DialogHost.DialogContent>
+                <StackPanel Margin="16">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <TextBlock x:Name="DialogHostMessage"
+                                   MaxWidth="200" MaxHeight="100"
+                                   Text="This is a dialog!"
+                                   TextWrapping="Wrap" />
+                    </ScrollViewer>
+                    <Button Content="Close"
+                            Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" />
+                </StackPanel>
+            </materialDesign:DialogHost.DialogContent>
+        </materialDesign:DialogHost>
+        <DockPanel Grid.Column="0">
+            <TextBox Margin="5"
+                     Name="JsonStr"
+                     HorizontalAlignment="Stretch"
+                     VerticalAlignment="Stretch"
+                     FontFamily="Consolas"
+                     Text="{Binding TextContent}"
+                     materialDesign:HintAssist.Hint="This is a text area"
+                     AcceptsReturn="True"
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                     TextWrapping="Wrap"
+                     VerticalScrollBarVisibility="Auto" />
+        </DockPanel>
+        <DockPanel Grid.Column="1">
+            <StackPanel>
+                <Button Content="commit"
+                        Margin="5"
+                        Click="Button_Click" />
+                <Button Content="Save"
+                        Margin="5"
+                        Click="SaveBtn_Click" />
+            </StackPanel>
+            <TextBox Margin="5"
+                     IsReadOnly="True"
+                     Name="ToCSharpStr"
+                     FontFamily="Consolas"
+                     Text="{Binding TextContent}"
+                     materialDesign:HintAssist.Hint="This is a text area"
+                     AcceptsReturn="True"
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                     TextWrapping="Wrap"
+                     VerticalScrollBarVisibility="Auto" />
+        </DockPanel>
+    </Grid>
+</UserControl>

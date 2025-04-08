@@ -62,6 +62,9 @@ namespace MaterialDemo.Domain
             yield return new DemoItem(
                "Sqlite3Connect",
                typeof(Views.Sqlite3Connect));
+            yield return new DemoItem(
+               "JsonHelp",
+               typeof(Views.JsonHelp));
         }
     }
 }
