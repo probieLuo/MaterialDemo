@@ -25,7 +25,25 @@
                                    Grid.RowSpan="2">
             <materialDesign:DialogHost.DialogContent>
                 <StackPanel Margin="16">
-                    <TextBox Margin="5"
+                    <GroupBox Width="300"
+                              MaxHeight="150"
+                              Margin="5"
+                              Header="Errors"
+                              Style="{StaticResource MaterialDesignCardGroupBox}"
+                              materialDesign:HintAssist.Hint="errorsMessage">
+                        <ScrollViewer Padding="4"
+                                      materialDesign:ScrollViewerAssist.PaddingMode="Content">
+                            <StackPanel>
+                                <TextBox Margin="4"
+                                         IsReadOnly="True"
+                                         TextWrapping="Wrap"
+                                         AcceptsReturn="True"
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                         Text="{Binding DialogHostMessage}"/>
+                            </StackPanel>
+                        </ScrollViewer>
+                    </GroupBox>
+                    <!--<TextBox Margin="5"
                                     Width="300"
                                     MaxHeight="150"
                                     IsReadOnly="True"
@@ -35,7 +53,7 @@
                                     AcceptsReturn="True"
                                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
                                     TextWrapping="Wrap"
-                                    VerticalScrollBarVisibility="Auto" />
+                                    VerticalScrollBarVisibility="Auto" />-->
                     <Button Content="Close"
                             Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" />
                 </StackPanel>

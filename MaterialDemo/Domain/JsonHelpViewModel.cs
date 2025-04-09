@@ -58,9 +58,12 @@ namespace MaterialDemo.Domain
 
         private void CopyToCSharpStrMethod(object obj)
         {
-            // 将文本复制到剪贴板
-            Clipboard.SetText(ToCSharpTextContent);
-            Clipboard.Flush(); // 确保数据被写入剪贴板
+            if (string.IsNullOrEmpty(ToCSharpTextContent))
+            {
+                // 将文本复制到剪贴板
+                Clipboard.SetText(ToCSharpTextContent);
+                Clipboard.Flush(); // 确保数据被写入剪贴板
+            }
         }
 
         private void SaveMutiFlieMethod(object obj)
@@ -76,9 +79,14 @@ namespace MaterialDemo.Domain
                     DialogHostIsOpen = true;
                     DialogHostMessage = "无法获取上一级目录";
                 }
+                string directoryPath = parentDirInfo + @"\Models\ClashOfClans\";
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
                 foreach (var item in classStrs)
                 {
-                    string filePath = parentDirInfo + @"\Models\" + $"{item.Key}.cs";
+                    string filePath = directoryPath + $"{item.Key}.cs";
                     string namespaceStr = string.Empty;
                     if (NameSpaceTextContent.StartsWith("namespace") && NameSpaceTextContent.EndsWith(";"))
                     {
@@ -90,7 +98,7 @@ namespace MaterialDemo.Domain
                     }
                     if (!File.Exists(filePath))
                     {
-                        File.WriteAllText(filePath, namespaceStr + item.Value);
+                        File.WriteAllText(filePath, namespaceStr + "\n\n" + item.Value);
                     }
                 }
             }
@@ -110,7 +118,12 @@ namespace MaterialDemo.Domain
                     DialogHostMessage = "无法获取上一级目录";
                 }
                 string flieName = string.IsNullOrEmpty(ClassName) ? "Root" : ClassName;
-                string filePath = parentDirInfo + @"\Models\" + $"{flieName}.cs";
+                string directoryPath = parentDirInfo + @"\Models\ClashOfClans\";
+                if (!Directory.Exists(directoryPath))
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+                string filePath = directoryPath + $"{flieName}.cs";
 
                 File.WriteAllText(filePath, ToCSharpTextContent);
             }
