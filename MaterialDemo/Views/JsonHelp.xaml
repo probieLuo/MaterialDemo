@@ -14,15 +14,21 @@
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="*" />
         </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="45" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
         <materialDesign:DialogHost x:Name="DialogHost"
                                    IsOpen="False"
                                    CloseOnClickAway="True"
-                                   Grid.ColumnSpan="2">
+                                   Grid.ColumnSpan="2"
+                                   Grid.RowSpan="2">
             <materialDesign:DialogHost.DialogContent>
                 <StackPanel Margin="16">
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                         <TextBlock x:Name="DialogHostMessage"
-                                   MaxWidth="200" MaxHeight="100"
+                                   MaxWidth="200"
+                                   MaxHeight="100"
                                    Text="This is a dialog!"
                                    TextWrapping="Wrap" />
                     </ScrollViewer>
@@ -31,38 +37,53 @@
                 </StackPanel>
             </materialDesign:DialogHost.DialogContent>
         </materialDesign:DialogHost>
-        <DockPanel Grid.Column="0">
+        <DockPanel Grid.Column="0"
+                   Grid.Row="1">
             <TextBox Margin="5"
                      Name="JsonStr"
                      HorizontalAlignment="Stretch"
                      VerticalAlignment="Stretch"
                      FontFamily="Consolas"
                      Text="{Binding TextContent}"
-                     materialDesign:HintAssist.Hint="This is a text area"
+                     materialDesign:HintAssist.Hint="Please input json"
                      AcceptsReturn="True"
                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
                      TextWrapping="Wrap"
                      VerticalScrollBarVisibility="Auto" />
         </DockPanel>
-        <DockPanel Grid.Column="1">
-            <StackPanel>
-                <Button Content="commit"
-                        Margin="5"
-                        Click="Button_Click" />
-                <Button Content="Save"
-                        Margin="5"
-                        Click="SaveBtn_Click" />
-            </StackPanel>
+        <DockPanel Grid.Column="1"
+                   Grid.Row="1">
+            <TextBox DockPanel.Dock="Top"
+                     Margin="5"
+                     Name="NameSpace"
+                     materialDesign:HintAssist.Hint="Please input nameSpace"
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}" />
             <TextBox Margin="5"
                      IsReadOnly="True"
                      Name="ToCSharpStr"
                      FontFamily="Consolas"
                      Text="{Binding TextContent}"
-                     materialDesign:HintAssist.Hint="This is a text area"
+                     materialDesign:HintAssist.Hint="ToCSharp"
                      AcceptsReturn="True"
                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
                      TextWrapping="Wrap"
                      VerticalScrollBarVisibility="Auto" />
         </DockPanel>
+
+        <WrapPanel Orientation="Horizontal" Grid.Row="0"
+                    Grid.ColumnSpan="2">
+            <Button Content="convert"
+                    Margin="5"
+                    Command="{Binding ConverterCSharp}" />
+            <Button Content="saveSingle"
+                    Margin="5"
+                    Command="{Binding SaveSingleFile}" />
+            <Button Content="saveMuti"
+                    Margin="5" 
+                    Command="{Binding SaveMutiFlie}"/>
+            <Button Content="copy"
+                    Margin="5" 
+                    Command="{Binding CopyConvertStr}"/>
+        </WrapPanel>
     </Grid>
 </UserControl>

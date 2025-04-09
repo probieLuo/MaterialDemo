@@ -24,15 +24,16 @@ namespace MaterialDemo.Views
                 List<string> list = JsonToClassGenerator.GenerateClass(JsonStr.Text, "Root",out message);
                 if (message != string.Empty)
                 {
-                    
                     DialogHostMessage.Text = message+"\n"+message+"\n"+message;
                     DialogHost.IsOpen = true;
                     return;
                 }
                 string str = string.Empty;
+                string pattern = @"public\s+class\s+(\w+)\s*\{[^{}]*\}";
                 foreach (var item in list)
                 {
-                    str += "\n" + item.ToString();
+
+                    str += "\n" + item;
                 }
                 ToCSharpStr.Text = str;
             }
@@ -46,11 +47,22 @@ namespace MaterialDemo.Views
         {
             if (!string.IsNullOrEmpty(ToCSharpStr.Text))
             {
+                string thisClassPath = FileExtention.GetThisFilePath();
+                string thisClassDirectory=Path.GetDirectoryName(thisClassPath);
+                // 获取上一级目录
+                DirectoryInfo parentDirInfo = Directory.GetParent(thisClassDirectory);
+                if (parentDirInfo == null)
+                {
+                    throw new InvalidOperationException("无法获取上一级目录");
+                }
+
+                string filePath = parentDirInfo + @"\Models\"+"HelloWorld.cs";
+                /*
                 string projectPath = AppDomain.CurrentDomain.BaseDirectory;
                 string fileName = "HelloWorld.cs";
                 string filePath = Path.Combine(projectPath, fileName);
-
-                // 保存字符串到文件
+                */
+                
                 File.WriteAllText(filePath, ToCSharpStr.Text);
             }
         }
