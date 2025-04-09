@@ -1,4 +1,5 @@
-﻿using MaterialDemo.Extentions;
+﻿using MaterialDemo.Domain;
+using MaterialDemo.Extentions;
 using MaterialDesignThemes.Wpf;
 using System.IO;
 using System.Windows;
@@ -14,6 +15,7 @@ namespace MaterialDemo.Views
         public JsonHelp()
         {
             InitializeComponent();
+            this.DataContext = new JsonHelpViewModel();
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)

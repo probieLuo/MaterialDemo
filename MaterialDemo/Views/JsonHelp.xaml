@@ -62,7 +62,7 @@
                      IsReadOnly="True"
                      Name="ToCSharpStr"
                      FontFamily="Consolas"
-                     Text="{Binding TextContent}"
+                     Text="{Binding JsonTextContent}"
                      materialDesign:HintAssist.Hint="ToCSharp"
                      AcceptsReturn="True"
                      Style="{StaticResource MaterialDesignOutlinedTextBox}"

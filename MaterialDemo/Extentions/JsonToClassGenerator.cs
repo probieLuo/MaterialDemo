@@ -50,7 +50,7 @@ namespace MaterialDemo.Extentions
                 properties.Add($"public {typeName} {property.Name} {{ get; set; }}");
             }
 
-            string classDefinition = $"public class {className}\n{{\n" + string.Join("\n", properties.Select(p => $"    {p}")) + "\n}";
+            string classDefinition = $"public class {Char.ToUpper(className[0])+className.Substring(1)}\n{{\n" + string.Join("\n", properties.Select(p => $"    {p}")) + "\n}";
             classDefinitions.Add(classDefinition);
         }
 
