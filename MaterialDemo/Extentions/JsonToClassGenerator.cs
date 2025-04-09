@@ -4,23 +4,23 @@ namespace MaterialDemo.Extentions
 {
     public class JsonToClassGenerator
     {
-        public static List<string> GenerateClass(string jsonString, string className,out string message)
+        public static Dictionary<string, string> GenerateClass(string jsonString, string className, out string message)
         {
             try
             {
                 var jsonObject = JObject.Parse(jsonString);
-                classDefinitions.Clear();
+                classMap.Clear();
                 GenerateClassFromJObject(jsonObject, className);
-                message=string.Empty;
-                return classDefinitions;
+                message = string.Empty;
+                return classMap;
             }
             catch (Newtonsoft.Json.JsonReaderException e)
             {
-                message=e.Message;
+                message = e.Message;
                 return null;
             }
         }
-        private static List<string> classDefinitions=new List<string>();
+        private static Dictionary<string, string> classMap = new Dictionary<string, string>();
         private static void GenerateClassFromJObject(JObject jsonObject, string className)
         {
             var properties = new List<string>();
@@ -31,7 +31,7 @@ namespace MaterialDemo.Extentions
                 if (property.Value.Type == JTokenType.Object)
                 {
                     GenerateClassFromJObject((JObject)property.Value, property.Name);
-                    typeName = property.Name;
+                    typeName = char.ToUpper(property.Name[0]) + property.Name.Substring(1);
                 }
                 else if (property.Value.Type == JTokenType.Array)
                 {
@@ -39,7 +39,7 @@ namespace MaterialDemo.Extentions
                     if (array.Count > 0 && array[0].Type == JTokenType.Object)
                     {
                         GenerateClassFromJObject((JObject)array[0], property.Name);
-                        typeName = $"List<{property.Name}>";
+                        typeName = $"List<{char.ToUpper(property.Name[0]) + property.Name.Substring(1)}>";
                     }
                     else
                     {
@@ -49,9 +49,19 @@ namespace MaterialDemo.Extentions
 
                 properties.Add($"public {typeName} {property.Name} {{ get; set; }}");
             }
-
-            string classDefinition = $"public class {Char.ToUpper(className[0])+className.Substring(1)}\n{{\n" + string.Join("\n", properties.Select(p => $"    {p}")) + "\n}";
-            classDefinitions.Add(classDefinition);
+            className = char.ToUpper(className[0]) + className.Substring(1);
+            string classDefinition = $"public class {className}\n{{\n" + string.Join("\n", properties.Select(p => $"    {p}")) + "\n}";
+            if (classMap.ContainsKey(className))
+            {
+                if (classMap[className].Length < classDefinition.Length)
+                {
+                    classMap[className] = classDefinition;
+                }
+            }
+            else
+            {
+                classMap.Add(className, classDefinition);
+            }
         }
 
         private static string GetCSharpType(JTokenType tokenType)

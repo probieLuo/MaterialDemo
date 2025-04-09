@@ -19,19 +19,23 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <materialDesign:DialogHost x:Name="DialogHost"
-                                   IsOpen="False"
+                                   IsOpen="{Binding DialogHostIsOpen}"
                                    CloseOnClickAway="True"
                                    Grid.ColumnSpan="2"
                                    Grid.RowSpan="2">
             <materialDesign:DialogHost.DialogContent>
                 <StackPanel Margin="16">
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
-                        <TextBlock x:Name="DialogHostMessage"
-                                   MaxWidth="200"
-                                   MaxHeight="100"
-                                   Text="This is a dialog!"
-                                   TextWrapping="Wrap" />
-                    </ScrollViewer>
+                    <TextBox Margin="5"
+                                    Width="300"
+                                    MaxHeight="150"
+                                    IsReadOnly="True"
+                                    FontFamily="Consolas"
+                                    Text="{Binding DialogHostMessage}"
+                                    materialDesign:HintAssist.Hint="errorsMessage"
+                                    AcceptsReturn="True"
+                                    Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                                    TextWrapping="Wrap"
+                                    VerticalScrollBarVisibility="Auto" />
                     <Button Content="Close"
                             Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}" />
                 </StackPanel>
@@ -44,7 +48,7 @@
                      HorizontalAlignment="Stretch"
                      VerticalAlignment="Stretch"
                      FontFamily="Consolas"
-                     Text="{Binding TextContent}"
+                     Text="{Binding JsonTextContent}"
                      materialDesign:HintAssist.Hint="Please input json"
                      AcceptsReturn="True"
                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
@@ -56,13 +60,14 @@
             <TextBox DockPanel.Dock="Top"
                      Margin="5"
                      Name="NameSpace"
+                      Text="{Binding NameSpaceTextContent}"
                      materialDesign:HintAssist.Hint="Please input nameSpace"
                      Style="{StaticResource MaterialDesignOutlinedTextBox}" />
             <TextBox Margin="5"
                      IsReadOnly="True"
                      Name="ToCSharpStr"
                      FontFamily="Consolas"
-                     Text="{Binding JsonTextContent}"
+                     Text="{Binding ToCSharpTextContent}"
                      materialDesign:HintAssist.Hint="ToCSharp"
                      AcceptsReturn="True"
                      Style="{StaticResource MaterialDesignOutlinedTextBox}"
@@ -72,6 +77,9 @@
 
         <WrapPanel Orientation="Horizontal" Grid.Row="0"
                     Grid.ColumnSpan="2">
+            <TextBox Margin="5"
+                     Text="{Binding ClassName}"
+                     materialDesign:HintAssist.Hint="Please input className"/>
             <Button Content="convert"
                     Margin="5"
                     Command="{Binding ConverterCSharp}" />
@@ -83,7 +91,7 @@
                     Command="{Binding SaveMutiFlie}"/>
             <Button Content="copy"
                     Margin="5" 
-                    Command="{Binding CopyConvertStr}"/>
+                    Command="{Binding CopyToCSharpStr}"/>
         </WrapPanel>
     </Grid>
 </UserControl>
