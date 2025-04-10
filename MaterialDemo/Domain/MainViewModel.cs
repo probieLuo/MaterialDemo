@@ -65,6 +65,9 @@ namespace MaterialDemo.Domain
             yield return new DemoItem(
                "JsonHelp",
                typeof(Views.JsonHelp));
+            yield return new DemoItem(
+               "SignalRConnect",
+               typeof(Views.SignalRConnect));
         }
     }
 }
