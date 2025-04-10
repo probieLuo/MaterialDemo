@@ -5,18 +5,27 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:MaterialDemo.Views"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:converters="clr-namespace:MaterialDemo.Converters" 
+             xmlns:domain="clr-namespace:MaterialDemo.Domain" 
+             d:DataContext="{d:DesignInstance Type=domain:SignalRConnectViewModel}"
              mc:Ignorable="d" 
+             FontFamily="Consolas"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:BoolToBrushConverter x:Key="BoolToBrushConverter" />
+        <converters:BoolToHorizontalAlignmentConverter x:Key="BoolToHorizontalAlignmentConverter" />
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="270" />
             <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="270" />
+            <ColumnDefinition Width="auto" />
         </Grid.ColumnDefinitions>
 
         <!--#region 左侧好友列表-->
         <StackPanel Grid.Column="0"
-                    Background="{StaticResource PrimaryHueDarkBrush}">
+                    Background="{StaticResource MaterialDesign.Brush.Primary}">
             <StackPanel Orientation="Horizontal"
                         Background="White">
                 <Image Width="210"
@@ -77,7 +86,7 @@
                                 BorderBrush="White"
                                 BorderThickness="0.6">
                             <Border.Background>
-                                <ImageBrush ImageSource="https://img.dotnet9.com/logo.png" />
+                                <ImageBrush ImageSource="https://avatars.githubusercontent.com/u/75834079?v=4" />
                             </Border.Background>
                         </Border>
                         <Border Width="10"
@@ -89,9 +98,9 @@
                                 Background="LightGreen" />
 
                         <StackPanel Grid.Column="1">
-                            <TextBlock Text="Dotnet9.com"
+                            <TextBlock Text="probie"
                                        Margin="10 0" />
-                            <TextBlock Text="一个热衷于互联网分享精神的程序员的网站！"
+                            <TextBlock Text="一个热衷于互联网分享精神的程序员！"
                                        Margin="10 0"
                                        TextTrimming="CharacterEllipsis"
                                        Opacity="0.6"
@@ -120,8 +129,15 @@
 
         <!--#region 中间会话区-->
         <Grid Grid.Column="1"
+              Margin="4"
               Background="#FFE4E4E4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal"
+                        Grid.Row="0"
                         Height="100"
                         VerticalAlignment="Top"
                         Background="#FFE4E4E4">
@@ -136,7 +152,7 @@
                         Background="Green"
                         CornerRadius="15"
                         VerticalAlignment="Center" />
-                <TextBlock Text="Dotnet9.com"
+                <TextBlock Text="{Binding CurrentChatObjectName}"
                            FontSize="28"
                            VerticalAlignment="Center" />
                 <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
@@ -148,12 +164,60 @@
                     <materialDesign:PackIcon Kind="VideoCall" />
                 </Button>
             </StackPanel>
-            <StackPanel Margin="0 100"
+            <!--<StackPanel Margin="0 100"
                         VerticalAlignment="Bottom">
                 <local:UserControlMessageReceived HorizontalAlignment="Left" />
                 <local:UserControlMessageSent HorizontalAlignment="Right" />
-            </StackPanel>
+            </StackPanel>-->
+            <ScrollViewer Margin="4" 
+                          Grid.Row="1"
+                          VerticalScrollBarVisibility="Auto" 
+                          HorizontalScrollBarVisibility="Disabled">
+                <ItemsControl x:Name="MessagesList"
+                              ItemsSource="{Binding MessagesList}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+
+                                <!-- 消息发送者头像 -->
+                                <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" 
+                                        Margin="0 0 10 0" 
+                                        Visibility="{Binding IsFromMe, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=False}">
+                                    <Border.Background>
+                                        <ImageBrush ImageSource="{Binding SenderAvatar}" />
+                                    </Border.Background>
+                                </Border>
+
+                                <!-- 消息内容 -->
+                                <Border Grid.Column="1" Background="{Binding IsFromMe, Converter={StaticResource BoolToBrushConverter}}" 
+                                        Padding="10" CornerRadius="15" Margin="0 5">
+                                    <TextBlock Text="{Binding MessageContent}" 
+                                               HorizontalAlignment="{Binding IsFromMe, Converter={StaticResource BoolToHorizontalAlignmentConverter}}"
+                                               TextWrapping="Wrap" FontSize="14" Foreground="Black" />
+                                </Border>
+
+                                <!-- 自己的头像 -->
+                                <Border Grid.Column="2" Width="40" Height="40" CornerRadius="20" 
+                                        Margin="10 0 0 0" 
+                                        Visibility="{Binding IsFromMe, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                    <Border.Background>
+                                        <ImageBrush ImageSource="{Binding SenderAvatar}" />
+                                    </Border.Background>
+                                </Border>
+                            </Grid>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+
+
             <Border Background="#FFAFE6B2"
+                    Grid.Row="2"
                     VerticalAlignment="Bottom">
                 <Grid Margin="0 10">
                     <Grid.ColumnDefinitions>
@@ -165,11 +229,14 @@
                     <TextBox Grid.Column="0"
                              MaxHeight="80"
                              TextWrapping="Wrap"
-                             Margin="5"
+                             Margin="1"
                              AcceptsReturn="True"
+                             Text="{Binding MessageContent}"
+                             Style="{StaticResource MaterialDesignOutlinedTextBox}"
                              VerticalScrollBarVisibility="Auto" />
                     <Button Grid.Column="3"
                             VerticalAlignment="Bottom"
+                            Command="{Binding SendMessage}"
                             Style="{StaticResource MaterialDesignFloatingActionMiniButton}">
                         <materialDesign:PackIcon Kind="Send" />
                     </Button>
@@ -194,7 +261,8 @@
 
         <!--#region 右侧参与会话的联系人信息-->
         <StackPanel Grid.Column="2"
-                    Background="White">
+                    Background="White"
+                    Visibility="Collapsed">
             <Button HorizontalAlignment="Right"
                     Margin="10"
                     Style="{StaticResource MaterialDesignFlatButton}"
@@ -208,11 +276,11 @@
                     BorderThickness="1"
                     BorderBrush="Gray">
                 <Border.Background>
-                    <ImageBrush ImageSource="https://img.dotnet9.com/logo.png" />
+                    <ImageBrush ImageSource="https://avatars.githubusercontent.com/u/75834079?v=4" />
                 </Border.Background>
             </Border>
 
-            <TextBlock Text="Dotnet9.com"
+            <TextBlock Text="probieluo"
                        HorizontalAlignment="Center"
                        Margin="0 10 0 0"
                        Foreground="Gray"
@@ -223,7 +291,7 @@
                        Foreground="Gray"
                        HorizontalAlignment="Center"
                        Opacity="0.8" />
-            <TextBlock Text="一个热衷于互联网分享精神的程序员的网站！"
+            <TextBlock Text="一个热爱.NET的程序员！"
                        FontSize="8"
                        Foreground="Gray"
                        HorizontalAlignment="Center"
@@ -234,7 +302,7 @@
                             Margin="0 3">
                     <materialDesign:PackIcon Kind="Location"
                                              Foreground="Gray" />
-                    <TextBlock Text="成都"
+                    <TextBlock Text="{Binding Address}"
                                Margin="10 0"
                                Foreground="Gray" />
                 </StackPanel>
@@ -242,7 +310,7 @@
                             Margin="0 3">
                     <materialDesign:PackIcon Kind="Cellphone"
                                              Foreground="Gray" />
-                    <TextBlock Text="186 2806 0000"
+                    <TextBlock Text="{Binding Phone}"
                                Margin="10 0"
                                Foreground="Gray" />
                 </StackPanel>
@@ -250,41 +318,10 @@
                             Margin="0 3">
                     <materialDesign:PackIcon Kind="Email"
                                              Foreground="Gray" />
-                    <TextBlock Text="632871194@qq.com"
+                    <TextBlock Text="{Binding MailAddress}"
                                Margin="10 0"
                                Foreground="Gray" />
                 </StackPanel>
-            </StackPanel>
-
-            <TextBlock Text="视频"
-                       Margin="20 0"
-                       Foreground="Gray" />
-            <StackPanel Orientation="Horizontal"
-                        Margin="20 0">
-                <Border Width="50"
-                        Height="50"
-                        CornerRadius="30"
-                        Margin="5">
-                    <Border.Background>
-                        <ImageBrush ImageSource="https://img.dotnet9.com/logo.png" />
-                    </Border.Background>
-                </Border>
-                <Border Width="50"
-                        Height="50"
-                        CornerRadius="30"
-                        Margin="5">
-                    <Border.Background>
-                        <ImageBrush ImageSource="https://img.dotnet9.com/logo.png" />
-                    </Border.Background>
-                </Border>
-                <Border Width="50"
-                        Height="50"
-                        CornerRadius="30"
-                        Margin="5">
-                    <Border.Background>
-                        <ImageBrush ImageSource="https://img.dotnet9.com/logo.png" />
-                    </Border.Background>
-                </Border>
             </StackPanel>
         </StackPanel>
         <!--#endregion 右侧参与会话的联系人信息-->
