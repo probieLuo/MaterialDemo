@@ -1,5 +1,6 @@
 ﻿using MaterialDemo.Models;
 using Microsoft.AspNetCore.SignalR.Client;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Configuration;
 using System.Collections.ObjectModel;
 using System.Windows;
@@ -11,7 +12,16 @@ namespace MaterialDemo.Domain
 {
     public class SignalRConnectViewModel : ViewModelBase
     {
-        private HubConnection hubConnection;
+        private HubConnection? hubConnection;
+        public bool IsConnected => hubConnection?.State == HubConnectionState.Connected;
+
+        public async ValueTask DisposeAsync()
+        {
+            if (hubConnection is not null)
+            {
+                await hubConnection.DisposeAsync();
+            }
+        }
         public SignalRConnectViewModel()
         {
             ConfigurationBuilder builder = new ConfigurationBuilder();
@@ -20,46 +30,52 @@ namespace MaterialDemo.Domain
             string userId = configuration.GetSection("user:userId").Value is null ? "0" : configuration.GetSection("user:userId").Value;
             string name = configuration.GetSection("user:name").Value;
 
-            hubConnection = new HubConnectionBuilder()
-                .WithUrl("http://81.68.127.231:8081/chatHub", options =>
-                {
-                    // 设置用户ID
-                    options.Headers.Add(userId, name);
-                }) // 设置服务器地址
-                .WithAutomaticReconnect() // 自动重连
-                .Build();
+            //hubConnection = new HubConnectionBuilder()
+            //    .WithUrl("https://localhost:7223/chathub", options =>
+            //    {
+            //        // 设置用户ID
+            //        options.Headers.Add(userId, name);
+            //    }) // 设置服务器地址
+            //    .WithAutomaticReconnect() // 自动重连
+            //    .Build();
 
-            // 注册接收消息的回调
+            //// 注册接收消息的回调
+            //hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
+            //{
+            //    var encodedMsg = $"{user}: {message}";
+            //    MessagesList.Add(new MessageItem()
+            //    {
+            //        SenderAvatar = "https://avatars.githubusercontent.com/u/75834079?v=4",
+            //        MessageContent = encodedMsg,
+            //        IsFromMe = false
+            //    });
+            //    OnPropertyChanged(nameof(MessagesList));
+            //    OnPropertyChanged(nameof(MessageContent));
+            //});
+
+            //// 启动连接
+            //hubConnection.StartAsync().ContinueWith(task =>
+            //{
+            //    if (task.IsFaulted)
+            //    {
+            //        MessageBox.Show("连接失败: " + task.Exception.GetBaseException().Message);
+            //    }
+            //});
+
+
+            hubConnection = new HubConnectionBuilder()
+            .WithUrl("https://localhost:7223/chathub")
+            .Build();
+
             hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
             {
                 var encodedMsg = $"{user}: {message}";
-                Application.Current.Dispatcher.Invoke(() =>
-                {
-                    MessagesList.Add(new MessageItem()
-                    {
-                        SenderAvatar = "https://avatars.githubusercontent.com/u/75834079?v=4",
-                        MessageContent = encodedMsg,
-                        IsFromMe = false
-                    });
-                });
-                MessagesList.Add(new MessageItem()
-                {
-                    SenderAvatar = "https://avatars.githubusercontent.com/u/75834079?v=4",
-                    MessageContent = encodedMsg,
-                    IsFromMe = false
-                });
-                OnPropertyChanged(nameof(MessagesList));
-                OnPropertyChanged(nameof(MessageContent));
+                Application.Current.Dispatcher.InvokeAsync(() => { MessagesList.Add(new MessageItem() { IsFromMe = false, MessageContent = encodedMsg, SenderAvatar = "https://avatars.githubusercontent.com/u/75834079?v=4" }); });
+                
+                
             });
 
-            // 启动连接
-            hubConnection.StartAsync().ContinueWith(task =>
-            {
-                if (task.IsFaulted)
-                {
-                    MessageBox.Show("连接失败: " + task.Exception.GetBaseException().Message);
-                }
-            });
+            hubConnection.StartAsync();
 
             SendMessage = new AsyncCommand(SendMessageMethod);
             //SendMessage = new RelayCommand(SendMessageMethod);
@@ -168,13 +184,11 @@ namespace MaterialDemo.Domain
             {
                 try
                 {
-                    await hubConnection.StartAsync().ContinueWith(task =>
+                    if (hubConnection is not null)
                     {
-                        if (task.IsFaulted)
-                        {
-                            MessageBox.Show("连接失败: " + task.Exception.GetBaseException().Message);
-                        }
-                    });
+                        await hubConnection.SendAsync("SendMessage", "0", MessageContent);
+                    }
+
                     // 发送消息给特定用户
                     await hubConnection.SendAsync("SendMessage", "0", MessageContent);
                     MessageContent = string.Empty; // 清空输入框
