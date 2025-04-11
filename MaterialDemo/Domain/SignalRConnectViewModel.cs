@@ -64,7 +64,7 @@ namespace MaterialDemo.Domain
 
 
             hubConnection = new HubConnectionBuilder()
-            .WithUrl("https://localhost:7223/chathub")
+            .WithUrl("http://81.68.127.231:8081/chathub")
             .Build();
 
             hubConnection.On<string, string>("ReceiveMessage", (user, message) =>
@@ -188,6 +188,8 @@ namespace MaterialDemo.Domain
                         await hubConnection.SendAsync("SendMessage", "0", MessageContent);
 
                         MessageContent = string.Empty; // 清空输入框
+
+                        OnPropertyChanged(nameof(MessageContent));
                     }
 
                     
