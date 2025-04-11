@@ -72,7 +72,6 @@ namespace MaterialDemo.Domain
                 var encodedMsg = $"{user}: {message}";
                 Application.Current.Dispatcher.InvokeAsync(() => { MessagesList.Add(new MessageItem() { IsFromMe = false, MessageContent = encodedMsg, SenderAvatar = "https://avatars.githubusercontent.com/u/75834079?v=4" }); });
                 
-                
             });
 
             hubConnection.StartAsync();
@@ -187,13 +186,11 @@ namespace MaterialDemo.Domain
                     if (hubConnection is not null)
                     {
                         await hubConnection.SendAsync("SendMessage", "0", MessageContent);
+
+                        MessageContent = string.Empty; // 清空输入框
                     }
 
-                    // 发送消息给特定用户
-                    await hubConnection.SendAsync("SendMessage", "0", MessageContent);
-                    MessageContent = string.Empty; // 清空输入框
-                    OnPropertyChanged(nameof(MessagesList));
-                    OnPropertyChanged(nameof(MessageContent));
+                    
                 }
                 catch (Exception ex)
                 {
