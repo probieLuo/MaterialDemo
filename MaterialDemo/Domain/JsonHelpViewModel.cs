@@ -58,7 +58,7 @@ namespace MaterialDemo.Domain
 
         private void CopyToCSharpStrMethod(object obj)
         {
-            if (string.IsNullOrEmpty(ToCSharpTextContent))
+            if (!string.IsNullOrEmpty(ToCSharpTextContent))
             {
                 // 将文本复制到剪贴板
                 Clipboard.SetText(ToCSharpTextContent);
@@ -88,13 +88,16 @@ namespace MaterialDemo.Domain
                 {
                     string filePath = directoryPath + $"{item.Key}.cs";
                     string namespaceStr = string.Empty;
-                    if (NameSpaceTextContent.StartsWith("namespace") && NameSpaceTextContent.EndsWith(";"))
+                    if (!string.IsNullOrEmpty(NameSpaceTextContent))
                     {
-                        namespaceStr = NameSpaceTextContent;
-                    }
-                    else
-                    {
-                        namespaceStr = "namespace " + NameSpaceTextContent + ";";
+                        if (NameSpaceTextContent.StartsWith("namespace") && NameSpaceTextContent.EndsWith(";"))
+                        {
+                            namespaceStr = NameSpaceTextContent;
+                        }
+                        else
+                        {
+                            namespaceStr = "namespace " + NameSpaceTextContent + ";";
+                        }
                     }
                     if (!File.Exists(filePath))
                     {

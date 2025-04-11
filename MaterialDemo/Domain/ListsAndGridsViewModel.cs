@@ -216,24 +216,31 @@ namespace MaterialDemo.Domain
         }
         private ObservableCollection<Article> GetArticleAllsync()
         {
-            ObservableCollection<Article> articles = new ObservableCollection<Article>();
-            using (Models.TestContext ctx = new TestContext())
+            try
             {
-                var dbSet = ctx.Articles.OrderBy(x => x.Id).Skip(0).Take(pageSize).ToList();
+                ObservableCollection<Article> articles = new ObservableCollection<Article>();
+                using (Models.TestContext ctx = new TestContext())
+                {
+                    var dbSet = ctx.Articles.OrderBy(x => x.Id).Skip(0).Take(pageSize).ToList();
 
-                foreach (var article in dbSet)
-                {
-                    articles.Add(article);
+                    foreach (var article in dbSet)
+                    {
+                        articles.Add(article);
+                    }
+                    int count = ctx.Articles.Count();
+                    TotalPage = (count / pageSize).ToString();
+                    if (count % pageSize > 0)
+                    {
+                        TotalPage = (count / pageSize + 1).ToString();
+                    }
+                    PageNumber = "1";
                 }
-                int count = ctx.Articles.Count();
-                TotalPage = (count / pageSize).ToString();
-                if (count % pageSize > 0)
-                {
-                    TotalPage = (count / pageSize + 1).ToString();
-                }
-                PageNumber = "1";
+                return articles;
             }
-            return articles;
+            catch (Exception e)
+            {
+                return [];
+            }
         }
         public ObservableCollection<SelectableViewModel> Items1 { get; }
         private static ObservableCollection<SelectableViewModel> CreateData()

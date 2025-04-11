@@ -25,7 +25,7 @@
 
         <!--#region 左侧好友列表-->
         <StackPanel Grid.Column="0"
-                    Background="{StaticResource MaterialDesign.Brush.Primary}">
+                    Background="{StaticResource MaterialDesign.Brush.Primary.Dark}">
             <StackPanel Orientation="Horizontal"
                         Background="White">
                 <Image Width="210"
@@ -170,11 +170,15 @@
                 <local:UserControlMessageSent HorizontalAlignment="Right" />
             </StackPanel>-->
             <ScrollViewer Margin="4" 
-                          Grid.Row="1"
-                          VerticalScrollBarVisibility="Auto" 
-                          HorizontalScrollBarVisibility="Disabled">
+Grid.Row="1"
+VerticalScrollBarVisibility="Auto" 
+HorizontalScrollBarVisibility="Disabled">
+                <ScrollViewer.Background>
+                    <ImageBrush Stretch="UniformToFill" ImageSource="/Images/sycbk1.png" />
+                </ScrollViewer.Background>
                 <ItemsControl x:Name="MessagesList"
-                              ItemsSource="{Binding MessagesList}">
+    ItemsSource="{Binding MessagesList}">
+                   
                     <ItemsControl.ItemTemplate>
                         <DataTemplate>
                             <Grid Margin="10">
@@ -186,25 +190,26 @@
 
                                 <!-- 消息发送者头像 -->
                                 <Border Grid.Column="0" Width="40" Height="40" CornerRadius="20" 
-                                        Margin="0 0 10 0" 
-                                        Visibility="{Binding IsFromMe, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=False}">
+              Margin="0 0 10 0" 
+              Visibility="{Binding IsFromMe, Converter={StaticResource BooleanToVisibilityConverter}, ConverterParameter=False}">
                                     <Border.Background>
                                         <ImageBrush ImageSource="{Binding SenderAvatar}" />
                                     </Border.Background>
                                 </Border>
 
-                                <!-- 消息内容 -->
-                                <Border Grid.Column="1" Background="{Binding IsFromMe, Converter={StaticResource BoolToBrushConverter}}" 
-                                        Padding="10" CornerRadius="15" Margin="0 5">
+                                <!-- 消息内容  Background="{Binding IsFromMe, Converter={StaticResource BoolToBrushConverter}}" -->
+                                <Border Background="{x:Null}" Grid.Column="1" 
+                                         
+              Padding="10" CornerRadius="15" Margin="0 5">
                                     <TextBlock Text="{Binding MessageContent}" 
-                                               HorizontalAlignment="{Binding IsFromMe, Converter={StaticResource BoolToHorizontalAlignmentConverter}}"
-                                               TextWrapping="Wrap" FontSize="14" Foreground="Black" />
+                     HorizontalAlignment="{Binding IsFromMe, Converter={StaticResource BoolToHorizontalAlignmentConverter}}"
+                     TextWrapping="Wrap" FontSize="14" Foreground="White" />
                                 </Border>
 
                                 <!-- 自己的头像 -->
                                 <Border Grid.Column="2" Width="40" Height="40" CornerRadius="20" 
-                                        Margin="10 0 0 0" 
-                                        Visibility="{Binding IsFromMe, Converter={StaticResource BooleanToVisibilityConverter}}">
+              Margin="10 0 0 0" 
+              Visibility="{Binding IsFromMe, Converter={StaticResource BooleanToVisibilityConverter}}">
                                     <Border.Background>
                                         <ImageBrush ImageSource="{Binding SenderAvatar}" />
                                     </Border.Background>
@@ -227,9 +232,10 @@
                         <ColumnDefinition Width="70" />
                     </Grid.ColumnDefinitions>
                     <TextBox Grid.Column="0"
+                             CaretBrush="Black"
                              MaxHeight="80"
                              TextWrapping="Wrap"
-                             Margin="1"
+                             Margin="10,1,1,1"
                              AcceptsReturn="True"
                              Text="{Binding MessageContent}"
                              Style="{StaticResource MaterialDesignOutlinedTextBox}"
