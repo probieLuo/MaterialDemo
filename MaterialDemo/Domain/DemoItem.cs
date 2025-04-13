@@ -3,7 +3,7 @@ using System.Windows;
 
 namespace MaterialDemo.Domain
 {
-    public class DemoItem: INotifyPropertyChanged
+    public class DemoItem : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
@@ -13,7 +13,7 @@ namespace MaterialDemo.Domain
         private readonly Type _contentType;
         private readonly object? _dataContext;
         private object? _content;
-        public DemoItem(string name,Type contentType, object? dataContext=null)
+        public DemoItem(string name, Type contentType, object? dataContext = null)
         {
             Name = name;
             _contentType = contentType;
@@ -31,5 +31,7 @@ namespace MaterialDemo.Domain
 
             return content;
         }
+
+
     }
 }

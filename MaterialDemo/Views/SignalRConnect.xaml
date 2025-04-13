@@ -26,17 +26,17 @@
         <!--#region 左侧好友列表-->
         <StackPanel Grid.Column="0"
                     Background="{StaticResource MaterialDesign.Brush.Primary.Dark}">
-            <StackPanel Orientation="Horizontal"
+            <!--<StackPanel Orientation="Horizontal"
                         Background="White">
                 <Image Width="210"
-                       Height="80"
-                       Source="https://img.dotnet9.com/logo-head.png" />
+                       Height="80" 
+                        />
                 <Button Style="{StaticResource MaterialDesignFlatButton}">
                     <materialDesign:PackIcon Kind="PlusCircle"
                                              Width="24"
                                              Height="24" />
                 </Button>
-            </StackPanel>
+            </StackPanel>-->
             <TextBox Margin="20 10"
                      Style="{StaticResource MaterialDesignFloatingHintTextBox}"
                      materialDesign:HintAssist.Hint="搜索"
@@ -138,7 +138,7 @@
             </Grid.RowDefinitions>
             <StackPanel Orientation="Horizontal"
                         Grid.Row="0"
-                        Height="100"
+                        Height="80"
                         VerticalAlignment="Top"
                         Background="#FFE4E4E4">
                 <StackPanel.Effect>
@@ -153,7 +153,7 @@
                         CornerRadius="15"
                         VerticalAlignment="Center" />
                 <TextBlock Text="{Binding CurrentChatObjectName}"
-                           FontSize="28"
+                           FontSize="20"
                            VerticalAlignment="Center" />
                 <Button Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
                         Margin="15 15 10 15">
@@ -174,7 +174,7 @@ Grid.Row="1"
 VerticalScrollBarVisibility="Auto" 
 HorizontalScrollBarVisibility="Disabled">
                 <ScrollViewer.Background>
-                    <ImageBrush Stretch="UniformToFill" ImageSource="/Images/sycbk1.png" />
+                    <ImageBrush Stretch="UniformToFill" ImageSource="/Images/sycbk1.png" Opacity="0.6" />
                 </ScrollViewer.Background>
                 <ItemsControl x:Name="MessagesList"
     ItemsSource="{Binding MessagesList}">

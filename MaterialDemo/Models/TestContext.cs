@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 
 namespace MaterialDemo.Models;
 
@@ -17,10 +18,15 @@ public partial class TestContext : DbContext
 
     public virtual DbSet<Company> Companies { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseSqlite("Data Source=E:\\doc\\source\\repos\\MaterialDemo\\MaterialDemo\\MaterialDemo\\test.db");
+    public virtual DbSet<User> Users { get; set; }
 
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        // 获取连接字符串
+        string connectionString = App.Configuration.GetConnectionString("DefaultConnection");
+
+        optionsBuilder.UseSqlite(connectionString);
+    }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Article>(entity =>
@@ -72,6 +78,12 @@ public partial class TestContext : DbContext
                 .HasColumnName("age");
             entity.Property(e => e.Name).HasColumnName("name");
             entity.Property(e => e.Salary).HasColumnName("salary");
+        });
+
+        modelBuilder.Entity<User>(entity =>
+        {
+            entity.ToTable("users");
+
         });
 
         OnModelCreatingPartial(modelBuilder);

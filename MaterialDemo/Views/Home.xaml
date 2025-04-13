@@ -6,6 +6,9 @@
              xmlns:local="clr-namespace:MaterialDemo.Views"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Background>
+        <ImageBrush Stretch="UniformToFill" ImageSource="/Images/sycbk2.png" Opacity="0.6" />
+    </UserControl.Background>
     <Grid>
         <Label VerticalAlignment="Center" HorizontalAlignment="Center" Content="hello,this is home." />
     </Grid>

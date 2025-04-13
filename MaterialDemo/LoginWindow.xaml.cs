@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MaterialDemo.Domain;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -19,32 +20,29 @@ namespace MaterialDemo
     /// </summary>
     public partial class LoginWindow : Window
     {
+        private Domain.LoginViewModel _loginViewModel;
         public LoginWindow()
         {
-            InitializeComponent();
-            //this.DataContext = new Domain.LoginViewModel();
-        }
-
-        private void Login_Click(object sender, RoutedEventArgs e)
-        {
-            if (Login())
+            try
             {
-                MainWindow mainWindow = new MainWindow();
-                mainWindow.Show();
-                this.Close();
+                _loginViewModel = new LoginViewModel();
+                InitializeComponent();
+                this.DataContext = _loginViewModel;
+                // 绑定登录成功事件
+                ((Domain.LoginViewModel)this.DataContext).LoginSuccess += OnLoginSuccess;
+            }
+            catch (Exception e)
+            {
+
             }
         }
-        private void Register_Click(object sender, RoutedEventArgs e)
-        {
-            // 注册逻辑
-        }
-        private bool Login()
-        {
-            // 登录逻辑
-            // 这里可以添加用户名和密码的验证逻辑
-            // 如果验证成功，返回true，否则返回false
-            return true;
-        }
 
+        private void OnLoginSuccess()
+        {
+            // 登录成功，关闭登录窗口并打开主窗口
+            Application.Current.MainWindow = new MainWindow();
+            Application.Current.MainWindow.Show();
+            this.Close(); // 关闭登录窗口
+        }
     }
 }

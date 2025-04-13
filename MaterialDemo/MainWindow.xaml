@@ -68,7 +68,7 @@
                                           DockPanel.Dock="Top"
                                           Mode="PrimaryMid">
                     <DockPanel LastChildFill="True">
-                        <StackPanel DockPanel.Dock="Right"
+                        <!--<StackPanel DockPanel.Dock="Right"
                                     Orientation="Horizontal">
                             <Image Height="60"
                                    Width="60"
@@ -80,7 +80,7 @@
                                 </Image.Clip>
                             </Image>
 
-                        </StackPanel>
+                        </StackPanel>-->
                         <StackPanel Orientation="Horizontal"
                                     Margin="10,0,0,0">
                             <ToggleButton x:Name="MenuToggleButton"
@@ -111,6 +111,14 @@
                                     Style="{StaticResource MaterialDesignToolButton}"
                                     ToolTip="Home" />
                         </StackPanel>
+
+
+                        <materialDesign:PopupBox Margin="10" HorizontalAlignment="Right" PlacementMode="BottomAndAlignRightEdges" StaysOpen="False">
+                            <StackPanel>
+                                <Button  Content="{materialDesign:PackIcon Kind=User,Size=20}" ToolTip="User"  />
+                                <Button  Content="{materialDesign:PackIcon Kind=Login,Size=20}" Click="Signout_Click"  ToolTip="Signout" />
+                            </StackPanel>
+                        </materialDesign:PopupBox>
                     </DockPanel>
                 </materialDesign:ColorZone>
 

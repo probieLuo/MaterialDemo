@@ -1,14 +1,15 @@
 ﻿using MaterialDemo.Views;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Windows.Input;
 
 namespace MaterialDemo.Domain
 {
     public class MainViewModel : INotifyPropertyChanged
     {
-        public MainViewModel() 
+        public MainViewModel()
         {
-            _demoItems=new ObservableCollection<DemoItem>();
+            _demoItems = new ObservableCollection<DemoItem>();
             DemoItems =
         [
             new DemoItem(
@@ -17,6 +18,15 @@ namespace MaterialDemo.Domain
             ),
             .. GenerateDemoItems().OrderBy(i => i.Name),
         ];
+            SelectedItem = DemoItems.FirstOrDefault(i => i.Name == "Home");
+            SelectedIndex = 0;
+
+
+            HomeCommand = new RelayCommand(_ =>
+            {
+                SelectedItem = DemoItems.FirstOrDefault(i => i.Name == "Home");
+                SelectedIndex = 0;
+            });
         }
         public event PropertyChangedEventHandler? PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
@@ -53,6 +63,8 @@ namespace MaterialDemo.Domain
                 OnPropertyChanged(nameof(SelectedIndex));
             }
         }
+
+        public ICommand HomeCommand { get; }
 
         private static IEnumerable<DemoItem> GenerateDemoItems()
         {

@@ -27,5 +27,12 @@ namespace MaterialDemo
         {
 
         }
+
+        private void Signout_Click(object sender, RoutedEventArgs e)
+        {
+            //LoginWindow loginWindo = new LoginWindow();
+            //loginWindo.Show();
+            //this.Close();
+        }
     }
 }

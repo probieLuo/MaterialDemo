@@ -5,6 +5,8 @@ namespace MaterialDemo
 {
     public static class PasswordBoxHelper
     {
+        private static bool _isUpdatingPassword = false;
+
         public static string GetPassword(DependencyObject obj)
         {
             return (string)obj.GetValue(PasswordProperty);
@@ -22,9 +24,11 @@ namespace MaterialDemo
 
         private static void OnPasswordChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            if (d is PasswordBox passwordBox)
+            if (d is PasswordBox passwordBox && !_isUpdatingPassword)
             {
+                _isUpdatingPassword = true;
                 passwordBox.Password = e.NewValue.ToString();
+                _isUpdatingPassword = false;
             }
         }
 
@@ -59,9 +63,11 @@ namespace MaterialDemo
 
         private static void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)
         {
-            if (sender is PasswordBox passwordBox)
+            if (sender is PasswordBox passwordBox && !_isUpdatingPassword)
             {
+                _isUpdatingPassword = true;
                 SetPassword(passwordBox, passwordBox.Password);
+                _isUpdatingPassword = false;
             }
         }
     }
